@@ -1,0 +1,14 @@
+My installation is a basic virtualhost on apache2 :
+
+<VirtualHost 94.23.39.90:80>
+    ServerName zeitgeist-borders.fabelier.org
+    DocumentRoot /var/www/zeitgeist-borders/www/
+    WSGIScriptAlias / /var/www/zeitgeist-borders/zb.py
+    WSGIApplicationGroup %{GLOBAL}
+    WSGIPassAuthorization On
+    WSGIDaemonProcess zf user=nobody group=nogroup processes=1 threads=8
+
+    <Directory /home/mandark/doc/code/python/zeitgeist-borders/www/>
+        WSGIProcessGroup pyramid
+    </Directory>
+</VirtualHost>
