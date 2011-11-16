@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
 <%inherit file="layout.mako"/>
+<form method="post" action="${request.route_url('home')}">
+    Search : <input type="text" name="query" />
+</form>
 <div class="home">
+% if result:
     <ul id="result">
         % for country in result:
             <li>
@@ -16,4 +20,5 @@
             </li>
         % endfor
     </ul>
+%endif
 </div>

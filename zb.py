@@ -45,17 +45,20 @@ def get_q(queue, country, tld, query):
 def home_view(request):
     result = []
     q = Queue()
-    query = "nicolas+sarkozy"
-    query = query.replace(' ', '+')
-    for country, tld in googles.iteritems():
-        p = multiprocessing.Process(target=get_q, args=(q, country, tld, query))
-        p.start()
-    waiting = len(googles)
-    while waiting > 0:
-        result.append(q.get())
-        waiting -= 1
-    p.join()
-    return {'result': result}
+    if request.method == 'POST' and request.POST.get('query'):
+        query = request.POST['query']
+        query = query.replace(' ', '+')
+        for country, tld in googles.iteritems():
+            p = multiprocessing.Process(target=get_q, args=(q, country, tld, query))
+            p.start()
+        waiting = len(googles)
+        while waiting > 0:
+            result.append(q.get())
+            waiting -= 1
+        p.join()
+        return {'result': result}
+    else:
+        return {}
 
 
 @view_config(context='pyramid.exceptions.NotFound', renderer='notfound.mako')
