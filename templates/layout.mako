@@ -1,11 +1,27 @@
 # -*- coding: utf-8 -*-
-<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="utf-8">
-    <title>Zeitgeist Borders</title>
-    <meta name="author" content="mandark">
-    <link rel="shortcut icon" href="/static/favicon.ico">
-    <link rel="stylesheet" href="/static/style.css">
+<title>Zeigest Border</title>
+<style type="text/css">
+#map{
+	background-color:red;
+/*	background:url(background.gif);
+	background-size:100% 100%;
+	background-repeat:no-repeat;
+	width:100%;
+	height:1000px;*/
+}
+
+</style>
+<script type="text/javascript">
+ function resize(){
+ var imageH =  document.getElementById("modelmap").clientHeight;
+ var layerMap =document.getElementById("map");
+ layerMap.height=imageH;
+ console.log(layerMap.height);
+}
+</script>
+
 </head>
 
 <body>
@@ -17,28 +33,12 @@
         % endfor
     </div>
     % endif
-
-    <div id="menu">
-        <a href="${request.route_url('home')}">HOME</a>
-        <span class="separator"> - </span>
-    </div>
+	<img src="static/logo.png"/>
     <div id="page">
         ${next.body()}
     </div>
     <div id="footer">
         Feel free to propose a new css :p
     </div>
-    <script type="text/javascript">
-
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-268798-8']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
 </body>
 </html>

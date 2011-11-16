@@ -2,7 +2,8 @@
 
 <%inherit file="layout.mako"/>
 <form method="post" action="${request.route_url('home')}">
-    Search : <input type="text" name="query" />
+    <input type="text" name="query" />
+    <input type="submit" value="ok" />
 </form>
 <div class="home">
 % if result:
@@ -21,4 +22,9 @@
         % endfor
     </ul>
 %endif
+</div>
+
+<image id="modelmap" src="static/background.gif" width="100%"/>
+<div id="map">
+    <div style="position:absolute;left:15%;top:35%;">USA</div>
 </div>
