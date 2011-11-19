@@ -46,7 +46,9 @@ def google_instant(queue, country, tld, query, tries=0):
     try:
         response = urllib.urlopen('http://www.google%s/complete/search?%s' % (tld, urllib.urlencode({'q': query}))).read()
         results = json.loads(response.replace('window.google.ac.h(', '')[:-1], encoding='latin1')
-        results = [r[0].encode('utf-8').replace(query + ' ', '') for r in results[1] if r[0].encode('utf-8') != query]
+        results = [r[0].replace(query + ' ', '')
+                   for r in results[1]
+                   if r[0] != query]
         queue.put((country, results))
     except Exception as ex:
         log.error(str(ex))
