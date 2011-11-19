@@ -12,9 +12,9 @@
             <li>
                 ${country[0] | h}
                 <ol>
-                    % for line in country[1][1]:
+                    % for line in country[1]:
                         <li>
-                        ${line[0] | h}
+                        ${line | h}
                         </li>
                     % endfor
                 </ol>
