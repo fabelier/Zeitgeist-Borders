@@ -41,12 +41,11 @@ def memoized(function):
 def google_instant(queue, country, tld, query):
     try:
         response = urllib.urlopen('http://www.google%s/complete/search?%s' % (tld, urllib.urlencode({'q': query}))).read()
-        results = json.loads(response.replace('window.google.ac.h(', '')[:-1].decode('latin1'))
-        results = [r[0].replace(query + ' ', '').encode('utf-8') for r in results[1] if r[0].encode('utf-8') != query]
+        results = json.loads(response.replace('window.google.ac.h(', '')[:-1], encoding='latin1')
+        results = [r[0].encode('utf-8').replace(query + ' ', '') for r in results[1] if r[0].encode('utf-8') != query]
         queue.put((country, results))
-    except Exception as e:
+    except Exception:
         queue.put((country, 'error'))
-        raise e
 
 
 @memoized
