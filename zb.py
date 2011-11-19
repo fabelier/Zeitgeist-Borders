@@ -28,6 +28,15 @@ def home_view(request):
     else:
         return {}
 
+@view_config(route_name='search', renderer='search.mako')
+def search_view(request):
+    if request.method == 'GET' and request.GET.get('q'):
+        return {'query': request.GET['q'],
+                'result':
+                    zeitgeist_borders.google_instants(request.GET['q'])}
+    else:
+        return {}
+
 
 @view_config(context='pyramid.exceptions.NotFound', renderer='notfound.mako')
 def notfound_view(self):
@@ -50,6 +59,7 @@ settings = {"mako.directories": os.path.join(here, "templates"),
 config = Configurator(settings=settings, session_factory=session_factory)
 
 config.add_route('home', '/')
+config.add_route('search', '/search/')
 
 config.add_static_view('static', os.path.join(here, 'static'))
 

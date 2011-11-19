@@ -33,12 +33,16 @@
         % endfor
     </div>
     % endif
-	<img src="static/logo.png"/>
+    <div id="header" style="text-align: center">
+	    <a href="/">
+            <img src="/static/logo.png"/>
+        </a>
+    </div>
     <div id="page">
         ${next.body()}
     </div>
     <div id="footer">
-        Feel free to propose a new css :p
+
     </div>
 </body>
 </html>
