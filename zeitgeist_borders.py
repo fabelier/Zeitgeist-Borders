@@ -31,9 +31,10 @@ def memoized(function):
         def _(arg):
             cached = cache.find_one({'key': arg})
             if cached is not None:
+                cache.update(cached, {'$inc': {'hits': 1}})
                 return cached['value']
             value = function(arg)
-            cache.insert({'key': arg, 'value': value})
+            cache.insert({'key': arg, 'value': value, 'hits': 0})
             return value
     else:
         def _(arg):
