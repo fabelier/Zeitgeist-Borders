@@ -9,7 +9,9 @@ import json
 import pymongo
 from threading import Thread
 from Queue import Queue
+import logging
 
+log = logging.getLogger(__file__)
 
 # List of all Google's domain names listed at http://www.google.com/supported_domains
 # Dictionary built with ./get_google_domains.py
@@ -45,7 +47,8 @@ def google_instant(queue, country, tld, query, tries=0):
         results = json.loads(response.replace('window.google.ac.h(', '')[:-1], encoding='latin1')
         results = [r[0].encode('utf-8').replace(query + ' ', '') for r in results[1] if r[0].encode('utf-8') != query]
         queue.put((country, results))
-    except Exception:
+    except Exception as ex:
+        log.error(str(ex))
         if tries < 2:
             time.sleep(1)
             google_instant(queue, country, tld, query, tries + 1)
