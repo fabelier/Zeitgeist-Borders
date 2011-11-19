@@ -19,15 +19,22 @@ googles = {'Canada': '.ca', 'Sao Tome and Principe': '.st', 'Turkmenistan': '.tm
 
 
 def memoized(function):
-    cache = pymongo.Connection().zeitgeist.cache
-    cache.ensure_index("key")
-    def _(arg):
-        cached = cache.find_one({'key': arg})
-        if cached is not None:
-            return cached['value']
-        value = function(arg)
-        cache.insert({'key': arg, 'value': value})
-        return value
+    try:
+        cache = pymongo.Connection(network_timeout=.2).zeitgeist.cache
+    except:
+        cache = None
+    if cache:
+        cache.ensure_index("key")
+        def _(arg):
+            cached = cache.find_one({'key': arg})
+            if cached is not None:
+                return cached['value']
+            value = function(arg)
+            cache.insert({'key': arg, 'value': value})
+            return value
+    else:
+        def _(arg):
+            return function(arg)
     return _
 
 
@@ -59,6 +66,7 @@ if __name__ == "__main__":
     import sys
     if len(sys.argv) < 2:
         print "Usage: %s SEARCH QUERY" % sys.argv[0]
+        sys.exit(1)
     for country, responses in google_instants(' '.join(sys.argv[1:])):
         print country
         for response in responses:
