@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import pymongo
 import re
+import time
 import threading
 import urllib
 import json
@@ -38,14 +39,18 @@ def memoized(function):
     return _
 
 
-def google_instant(queue, country, tld, query):
+def google_instant(queue, country, tld, query, tries=0):
     try:
         response = urllib.urlopen('http://www.google%s/complete/search?%s' % (tld, urllib.urlencode({'q': query}))).read()
         results = json.loads(response.replace('window.google.ac.h(', '')[:-1], encoding='latin1')
         results = [r[0].encode('utf-8').replace(query + ' ', '') for r in results[1] if r[0].encode('utf-8') != query]
         queue.put((country, results))
     except Exception:
-        queue.put((country, 'error'))
+        if tries < 2:
+            time.sleep(1)
+            google_instant(queue, country, tld, query, tries + 1)
+        else:
+            queue.put((country, {}))
 
 
 @memoized
