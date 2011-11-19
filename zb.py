@@ -22,7 +22,8 @@ import zeitgeist_borders
 @view_config(route_name='home', renderer='home.mako')
 def home_view(request):
     if request.method == 'POST' and request.POST.get('query'):
-        return {'result':
+        return {'query': request.POST['query'],
+                'result':
                     zeitgeist_borders.google_instants(request.POST['query'])}
     else:
         return {}
