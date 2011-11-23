@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import pymongo
+try: 
+    import pymongo
+except:
+    pass
 import re
 import time
 import threading
 import urllib
 import json
-import pymongo
 from threading import Thread
 from Queue import Queue
 import logging

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
 import logging
@@ -66,3 +67,9 @@ config.add_static_view('static', os.path.join(here, 'static'))
 config.scan()
 
 application = config.make_wsgi_app()
+
+if __name__ == "__main__":
+	from paste.httpserver import serve
+	app = config.make_wsgi_app()
+	serve(app, host='0.0.0.0')
+
