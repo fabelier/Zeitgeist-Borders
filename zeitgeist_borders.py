@@ -83,3 +83,4 @@ if __name__ == "__main__":
         print country
         for response in responses:
             print " * " + response
+#pouet
