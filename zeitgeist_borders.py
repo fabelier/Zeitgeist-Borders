@@ -46,7 +46,7 @@ def memoized(function):
 
 def google_instant(queue, country, tld, query, tries=0):
     try:
-        response = urllib.urlopen('http://www.google%s/complete/search?%s' % (tld, urllib.urlencode({'q': query}))).read()
+        response = urllib.urlopen('http://www.google%s/complete/search?client=chrome&%s' % (tld, urllib.urlencode({'q': query}))).read()
         results = json.loads(response.replace('window.google.ac.h(', '')[:-1], encoding='latin1')
         results = [r[0].replace(query + ' ', '')
                    for r in results[1]
