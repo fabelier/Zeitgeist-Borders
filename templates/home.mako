@@ -12,7 +12,7 @@
 <p>
 Zeitgeist Borders aims at providing a visualization of every country specific Google Search services. Type a query, you'll see what each country get as recommendation.<br />
 <p>
-For example, For the query 'test' google recommends to some country 'love' and for others 'testicular cancer'.<br />
+For instance, for the query 'how to', google recommends to some country 'love' and 'kiss' while it recommends to some other 'make a report' or 'tie a tie'.<br />
 <p>
 
 </div>
