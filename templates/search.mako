@@ -10,11 +10,11 @@
 <div class="search">
 % if result:
     <ul id="result">
-        % for country in result:
+        % for country, suggestions in result.iteritems():
             <li>
-                ${country[0] | h}
+                ${country | h}
                 <ol>
-                    % for line in country[1]:
+                    % for line in suggestions:
                         <li>
                         ${line | h}
                         </li>
@@ -26,7 +26,7 @@
 %endif
 </div>
 
-<image id="modelmap" src="static/background.gif" width="100%"/>
+<image id="modelmap" src="/static/background.gif" width="100%"/>
 <div id="map">
     <!--<div style="position:absolute;left:15%;top:35%;">USA</div>-->
 </div>

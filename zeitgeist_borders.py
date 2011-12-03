@@ -88,27 +88,39 @@ def google_instant(queue, country, tld, query, tries=0):
             time.sleep(1)
             google_instant(queue, country, tld, query, tries + 1)
         else:
-            queue.put((country, {}))
-
+            queue.put((country, []))
 
 @memoized
 def google_instants(query):
     q = Queue()
-    result = []
+    result = {}
     for country, tld in googles.iteritems():
         Thread(target=google_instant, args=(q, country, tld, query)).start()
     waiting = len(googles)
     while waiting > 0:
-        result.append(q.get())
+        country, suggestions = q.get()
+        result[country] = suggestions
         waiting -= 1
     return result
 
+
+def update():
+    """
+    @todo update suggestions country that are empty or too old
+    This should be started daily as a cron task.
+    """
+    cache = pymongo.Connection(network_timeout=.2).zeitgeist.cache
+    for entry in cache.find():
+        pass
 
 if __name__ == "__main__":
     import sys
     if len(sys.argv) < 2:
         print "Usage: %s SEARCH QUERY" % sys.argv[0]
         sys.exit(1)
+    if sys.argv[1] == '--update':
+        update()
+        sys.exit(0)
     for country, responses in google_instants(' '.join(sys.argv[1:])):
         print country
         for response in responses:
