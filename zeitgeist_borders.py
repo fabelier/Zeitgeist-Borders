@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-try: 
+try:
     import pymongo
 except:
     pass
@@ -13,6 +13,7 @@ from threading import Thread
 from Queue import Queue
 import logging
 
+logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__file__)
 
 # List of all Google's domain names listed at http://www.google.com/supported_domains
@@ -45,15 +46,44 @@ def memoized(function):
 
 
 def google_instant(queue, country, tld, query, tries=0):
+    """
+    Response look like :
+    [
+        "android",
+        [
+            "http://www.android.com/",
+            "android market",
+            "android",
+            "android phones"
+        ],
+        [
+            "Android.com - Experience Nexus One",
+            "",
+            "",
+            ""
+        ],
+        [],
+        {
+            "google:suggesttype": [
+                "NAVIGATION",
+                "QUERY",
+                "QUERY",
+                "QUERY"
+            ]
+        }
+    ]
+
+    """
     try:
         response = urllib.urlopen('http://www.google%s/complete/search?client=chrome&%s' % (tld, urllib.urlencode({'q': query}))).read()
-        results = json.loads(response.replace('window.google.ac.h(', '')[:-1], encoding='latin1')
-        results = [r[0].replace(query + ' ', '')
-                   for r in results[1]
-                   if r[0] != query]
+        results = json.loads(response, encoding='latin1')
+        results = [r.replace(query + ' ', '')
+                   for i, r in enumerate(results[1])
+                   if r != query and results[4]['google:suggesttype'][i] == 'QUERY']
         queue.put((country, results))
     except Exception as ex:
-        log.error(str(ex))
+        log.error("Error %s querying %s for country %s, got %s",
+                  str(ex), query, country, response)
         if tries < 2:
             time.sleep(1)
             google_instant(queue, country, tld, query, tries + 1)
