@@ -30,14 +30,13 @@ def memoized(function):
     except:
         cache = None
     if cache:
-        cache.ensure_index("key")
         def _(arg):
-            cached = cache.find_one({'key': arg})
+            cached = cache.find_one({'_id': arg})
             if cached is not None:
-                cache.update(cached, {'$inc': {'hits': 1}})
+                cache.update({'_id': arg}, {'$inc': {'hits': 1}})
                 return cached['value']
             value = function(arg)
-            cache.insert({'key': arg, 'value': value, 'hits': 0})
+            cache.insert({'_id': arg, 'value': value, 'hits': 0})
             return value
     else:
         def _(arg):
@@ -121,7 +120,7 @@ if __name__ == "__main__":
     if sys.argv[1] == '--update':
         update()
         sys.exit(0)
-    for country, responses in google_instants(' '.join(sys.argv[1:])):
+    for country, responses in google_instants(' '.join(sys.argv[1:])).iteritems():
         print country
         for response in responses:
             print " * " + response
