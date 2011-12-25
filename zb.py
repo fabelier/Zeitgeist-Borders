@@ -30,6 +30,7 @@ def home_view(request):
         return {}
 
 @view_config(route_name='search', renderer='search.mako')
+@view_config(route_name='search_json', renderer='json')
 def search_view(request):
     if request.method == 'GET' and request.GET.get('q'):
         return {'query': request.GET['q'],
@@ -61,6 +62,7 @@ config = Configurator(settings=settings, session_factory=session_factory)
 
 config.add_route('home', '/')
 config.add_route('search', '/search/')
+config.add_route('search_json', '/search.json')
 
 config.add_static_view('static', os.path.join(here, 'static'))
 
