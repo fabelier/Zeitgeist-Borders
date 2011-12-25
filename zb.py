@@ -20,6 +20,7 @@ import sys
 sys.path.append(here)
 import zeitgeist_borders
 
+
 @view_config(route_name='home', renderer='home.mako')
 def home_view(request):
     if request.method == 'POST' and request.POST.get('query'):
@@ -29,10 +30,11 @@ def home_view(request):
     else:
         return {}
 
+
 @view_config(route_name='search', renderer='search.mako')
 @view_config(route_name='search_json', renderer='json')
 def search_view(request):
-    if request.method == 'GET' and request.GET.get('q'):
+    if request.method == 'GET' and 'q' in request.GET:
         return {'query': request.GET['q'],
                 'result':
                     zeitgeist_borders.google_instants(request.GET['q'])}
