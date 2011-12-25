@@ -81,8 +81,8 @@ def google_instant(queue, country, tld, query, tries=0):
                    if r != query and results[4]['google:suggesttype'][i] == 'QUERY']
         queue.put((country, results))
     except Exception as ex:
-        log.error("Error %s querying %s for country %s, got %s",
-                  str(ex), query, country, response)
+        log.error("Error %s querying %s for country %s",
+                  str(ex), query, country)
         if tries < 2:
             time.sleep(1)
             google_instant(queue, country, tld, query, tries + 1)
