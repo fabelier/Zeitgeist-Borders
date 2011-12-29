@@ -12,7 +12,7 @@
     <ul id="result">
         % for country, suggestions in result.iteritems():
             <li>
-                ${country | h}
+                ${countries[country] | h}
                 <ol>
                     % for line in suggestions:
                         <li>

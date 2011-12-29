@@ -79,7 +79,7 @@ def google_instant(queue, country, tld, query, tries=0):
         results = [r.replace(query + ' ', '')
                    for i, r in enumerate(results[1])
                    if r != query and results[4]['google:suggesttype'][i] == 'QUERY']
-        queue.put((country, results))
+        queue.put((tld, results))
     except Exception as ex:
         log.error("Error %s querying %s for country %s",
                   str(ex), query, country)
@@ -87,7 +87,7 @@ def google_instant(queue, country, tld, query, tries=0):
             time.sleep(1)
             google_instant(queue, country, tld, query, tries + 1)
         else:
-            queue.put((country, []))
+            queue.put((tld, []))
 
 @memoized
 def google_instants(query):
@@ -110,7 +110,11 @@ def update():
     """
     cache = pymongo.Connection(network_timeout=.2).zeitgeist.cache
     for entry in cache.find():
-        pass
+        value = {}
+        for country, response in entry['value'].iteritems():
+            value[googles[country][1:]] = response
+        cache.update({'_id': entry['_id']}, {'$set': {'value': value}},
+                     safe=True)
 
 if __name__ == "__main__":
     import sys

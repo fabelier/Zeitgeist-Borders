@@ -37,6 +37,9 @@ def home_view(request):
 def search_view(request):
     if request.method == 'GET' and 'q' in request.GET:
         return {'query': request.GET['q'],
+                'countries': dict((v[1:], k)
+                                  for k, v
+                                  in zeitgeist_borders.googles.iteritems()),
                 'result':
                     zeitgeist_borders.google_instants(request.GET['q'])}
     else:
