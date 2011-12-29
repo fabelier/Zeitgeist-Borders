@@ -10,6 +10,7 @@ from pyramid.events import ApplicationCreated
 from pyramid.httpexceptions import HTTPFound
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
 from pyramid.view import view_config
+from pyramid.renderers import JSONP
 
 
 logging.basicConfig()
@@ -32,7 +33,7 @@ def home_view(request):
 
 
 @view_config(route_name='search', renderer='search.mako')
-@view_config(route_name='search_json', renderer='json')
+@view_config(route_name='search_json', renderer='jsonp')
 def search_view(request):
     if request.method == 'GET' and 'q' in request.GET:
         return {'query': request.GET['q'],
@@ -61,7 +62,7 @@ session_factory = UnencryptedCookieSessionFactoryConfig('itsaseekreet')
 settings = {"mako.directories": os.path.join(here, "templates"),
             "mako.input_encoding": 'utf-8'}
 config = Configurator(settings=settings, session_factory=session_factory)
-
+config.add_renderer('jsonp', JSONP(param_name='callback'))
 config.add_route('home', '/')
 config.add_route('search', '/search/')
 config.add_route('search_json', '/search.json')
