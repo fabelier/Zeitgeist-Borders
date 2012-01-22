@@ -1,0 +1,258 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Google Borders Viewer</title>
+    <link rel="stylesheet" type="text/css" href="http://www.google.com/css/go-x.css">
+    <link rel="stylesheet" type="text/css" href="http://www.google.com/css/modules/buttons/g-button.css">
+  	<script type="text/javascript" src="lib/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+  	<script type="text/javascript" src="lib/underscore-min.js"></script>
+	<script type="text/javascript" src="lib/raphael-min.js"></script>
+	<script type="text/javascript" src="lib/scale.raphael.js"></script>
+  	<script type="text/javascript" src="worldmap.js"></script>
+
+	<style type="text/css">
+			.qr{
+				padding:5px;
+				border-bottom: solid 1px #c0c0c0;
+				display:block;
+				height:15px;
+			}
+			.qr:hover{
+				background-color:#e9e9e9;
+			}
+			.qrt{
+				float:left;
+				display:block;
+			}
+			.qrp{
+				float:right;
+				display:block;
+			}
+			.qrc{
+				text-align:left;
+				float:left;
+				width:300px;
+				height:300px;
+				border-right:solid 1px #c0c0c0;
+				display:block;
+				position:relative;
+			}
+			.lqr{
+				overflow-y:scroll;
+				height:274px;
+				
+			}
+			#countriesLabel{
+				width:590px;
+				height:20px;
+				position:absolute;
+				display:block;
+				left:370px;
+				top:390px;
+				font-size:10px;
+				/*background:red;*/
+				/*margin-top:300px;*/
+			}
+	</style>
+  
+  </head>
+
+  <body id="container">
+    <h1>
+      <table>
+       <tr>
+         <td><a href="/ngrams">
+             <img style="margin:0 0.5em 0 0;"
+                  src="imgs/borders_logo.gif"
+                  alt="Google Books"></a>
+         </td>
+         <td style="padding-left: 0cm; padding-top: 0.035em; color: #009925; font-size: 28px;">What are the borders of a google auto completion ?</td>
+       </tr>
+      </table>
+    </h1>
+	<blockquote>
+
+	  <div>Graph these <b>case-sensitive</b> comma-separated phrases:
+	    <input type="text"
+	           name="content"
+			   id="content"
+	           size="40"
+	           value="How to"
+	           maxlength=240> <input name="search" id="search" type="button" value="Search the borders">
+	  </div>
+	  
+	</blockquote>
+
+	<center>
+	<div id="resultContainer"  style="width:900px;height:300px;border:solid 1px #c0c0c0">
+		
+		<div class="qrc">
+			<div class="qr">
+			<div class="qrt">Results </div>
+			<div class="qrp">Weight</div>
+			</div>
+			<div class="lqr" >
+				
+			</div>
+		</div>
+		<div id="map">
+			<div id="mapHolder"></div>
+			<div id="countriesLabel">Select a result to see in witch country it's proposed</div>
+		</div>
+	</div>
+<!--
+	<g:plusone size="small"></g:plusone>
+	<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script><br>
+
+	<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="orwant">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>-->
+
+<!-- Adding pan and zoom -->
+	</center>
+
+	<center>Run your own experiment!  Raw data is available for download
+	  <a href="/ngrams/datasets">here</a>.
+	</center>
+
+	    <center>
+	    <div id="about" style="border-top: 1px solid #ccc;">
+			<span style="transform:rotate(180deg);-webkit-transform:rotate(180deg);
+			-moz-transform:rotate(180deg);-o-transform:rotate(180deg);
+			filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2); display: inline-block;">&copy;</span> 2011 Fabelier -
+	      <a href="http://www.fabelier.org">About Fabelier</a> -
+
+	      <a href="http://support.google.com/websearch/bin/answer.py?hl=en&answer=106230" target="_blank">About Google Autocomplete</a> -
+	      <a href="/info">About Google Borders</a>
+	    </div>
+	</center>
+<script>
+
+var results = [];
+var countries;
+var paper;
+
+function resultsPush(newresult,country,poid){
+	//poid=1;
+	var estilla = false;
+	for (var i = 0; i < results.length; i++){
+		if(results[i].label!=undefined){
+			if(results[i].label.toLowerCase()==newresult.toLowerCase()){
+				//console.log("similaire")
+				var myresult=results[i];
+				estilla=true;
+			}
+		}
+	}
+	if(estilla==false){
+		results.push({'label':newresult,'country':[{'c':country,'p':poid}],'poid':1});
+	}else{
+		myresult.country.push({'c':country,'p':poid});
+		myresult.poid+=1;
+	}
+}
+function hightlightCountrie(id){
+	 var mycountryPath = $('#'+id)
+	//console.log(mycountryPath);
+	 $('#'+id).attr({
+         'fill': '#000',
+         'stroke': '#fff'
+     });
+}
+function hightlightResult(id){
+	//$('#'+id+' path').
+}
+
+function sortByPoid (myarray){
+	myarray.sort(function (a, b) {
+	    if (a.poid < b.poid) return 1;
+	    if (b.poid < a.poid) return -1;
+	    return 0;
+	});
+}
+function resultOver(query){
+	var myElement = results[query];
+	var countryName;
+	var countryListeSt="";
+	for (var i = 0; i < myElement.country.length; i++){
+		var myce=myElement.country[i];
+		countryListeSt += cnq(myce.c).toUpperCase()+" - "//+" "+myce.p);
+		hightlightCountrie(myce.c.toUpperCase());
+	}
+	if(i<14){
+ 		$("#countriesLabel").text(countryListeSt);
+	}
+}
+function resultOut(){
+	$('#mapHolder').children().children().children().attr({
+        fill: "#333",
+        stroke: "#fff"
+    }, 300);
+	$("#countriesLabel").text(countryListeSt);
+}
+function cnq(query){
+	return countries.countries[query];
+}
+function drawResult(){
+	var template="<div id='{i}' class='qr' onMouseOver='resultOver(this.id);' onMouseOut='resultOut();'><div class='qrt'>{result}</div><div class='qrp'>{poid}</div></div>";
+	var newtemplate="";
+	for (var i = 0; i < results.length; i++){
+		newtemplate = template.replace(/{result}/, results[i].label);
+		newtemplate = newtemplate.replace("{poid}", results[i].poid);
+		newtemplate = newtemplate.replace("{i}", i);
+		$(newtemplate).appendTo('.lqr');
+	}
+}
+function searchBorders (content){
+	/*
+	$.getJSON("http://zeitgeist-borders.fabelier.org/search.json?jsoncallback=?",
+	  {
+	    q: "cat"
+	  },
+	*/
+	$.getJSON("search.json",function(data) {
+  		var items = [];
+		var taille=0
+		$.each(data.result, function(key, val) {
+				for (i=0; i<val.length; i++){
+		 			resultsPush(val[i],key,val.length-i);
+				}
+			taille++;
+  		});
+		sortByPoid(results);
+		console.log(taille)
+		drawResult();
+	});
+	window.location.hash = "#"+escape(content);
+}
+
+$(document).ready(function() {
+	var anchorvalue;
+	//var paper = Raphael('mapHolder',1000,500);
+	//paper.changeSize(600, 300, true, false);
+    
+	var url = document.location;
+	var strippedUrl = url.toString().split("#");
+	if(strippedUrl.length > 1)
+	anchorvalue = strippedUrl[1];
+	
+	$.getJSON("countries.json",function(data) {
+		countries = data;
+	});
+	$('#search').click(function() {
+		searchBorders($('#content').attr('value'));
+	});
+	drawMap();
+	
+	//URL anchor search
+	if (anchorvalue==undefined){
+		searchBorders("How to");
+	}else{
+		searchBorders(unescape(anchorvalue));
+		$('#content').attr('value',unescape(anchorvalue));
+	}
+	
+});
+</script>
+
+  </body>
+</html>
