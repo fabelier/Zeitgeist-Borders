@@ -101,7 +101,7 @@ function drawMap() {
 	paper.changeSize(600, 300, true, false);
 	$("#mapHolder").css({'left':'370px','top':'120px'});
     var map = getPaths(paper, {
-        fill: "#333",
+        fill: "#888888",
         stroke: "#fff",
         "stroke-width": .5,
         "stroke-linejoin": "round"
@@ -135,7 +135,7 @@ function drawMap() {
                 };
                 countryPath[0].onmouseout = function() {
                     countryPath.animate({
-                        fill: "#333",
+                        fill: "#888888",
                         stroke: "#fff"
                     }, 300);
                     paper.safari();

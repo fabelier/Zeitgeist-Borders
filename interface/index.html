@@ -60,7 +60,7 @@
 			#loading{
 				position:absolute;
 				left:170;
-				top:290;
+				top:240;
 			}
 	</style>
   
@@ -113,7 +113,7 @@
  -->
 
 	<center>Run your own experiment!  Raw data is available for download
-	  <a href="/ngrams/datasets">here</a>.
+	  <a href="#">here</a>.
 	</center>
 
 	    <center>
@@ -133,7 +133,7 @@ var results = [];
 var countries;
 var paper;
 var similarCountry=[];
-
+var colors=['','#000','#2a2a2a','#494949'];
 
 
 function resultsPush(newresult,country,poid){
@@ -154,11 +154,12 @@ function resultsPush(newresult,country,poid){
 		myresult.poid+=1;
 	}
 }
-function hightlightCountrie(id){
+function hightlightCountrie(myce){
+	 id = myce.c.toUpperCase()
 	 var mycountryPath = $('#'+id)
 	//console.log(mycountryPath);
 	 $('#'+id).attr({
-         'fill': '#000',
+         'fill': colors[myce.p],
          'stroke': '#fff'
      });
 }
@@ -196,7 +197,6 @@ function hightlightResult(id){
 	}
 }
 
-
 function sortByPoid (myarray){
 	myarray.sort(function (a, b) {
 	    if (a.poid < b.poid) return 1;
@@ -212,7 +212,8 @@ function resultOver(query){
 	for (var i = 0; i < myElement.country.length; i++){
 		var myce=myElement.country[i];
 		countryListeSt += cnq(myce.c).toUpperCase()+" - "//+" "+myce.p);
-		hightlightCountrie(myce.c.toUpperCase());
+		hightlightCountrie(myce);
+		console.log(myce);
 	}
 	//if(i<14){
  		$("#countriesLabel").text(countryListeSt);
@@ -225,7 +226,7 @@ function viderLesResult(){
 }
 function resultOut(){
 	$('#mapHolder').children().children().children().attr({
-        fill: "#333",
+        fill: "#888888",
         stroke: "#fff"
     }, 300);
 	if(countryListeSt!=undefined){
