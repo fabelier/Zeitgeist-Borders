@@ -121,13 +121,12 @@ function drawMap() {
                 });
 				countryPath.node.id=countryCode;
                 countryPath.color = Raphael.getColor();
-				//countryPath.id	=countryCode;
-				//console.log(countryCode)
 				countryPath[0].onclick = function() {
 					//console.log(countryPath[0]);
 					alert(countryPath.node.id);
                 }
                 countryPath[0].onmouseover = function() {
+					hightlightResult(countryPath.node.id);
                     countryPath.animate({
 			         	fill: '#000',
 			         	stroke: '#fff'
@@ -140,6 +139,7 @@ function drawMap() {
                         stroke: "#fff"
                     }, 300);
                     paper.safari();
+					$(".lqr").children().show();
                 };
             //}
         })(map[countryCode], countryCode);

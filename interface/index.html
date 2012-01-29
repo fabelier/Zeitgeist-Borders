@@ -16,7 +16,7 @@
 				padding:5px;
 				border-bottom: solid 1px #c0c0c0;
 				display:block;
-				height:15px;
+				overflow: hidden;	 
 			}
 			.qr:hover{
 				background-color:#e9e9e9;
@@ -40,30 +40,38 @@
 			}
 			.lqr{
 				overflow-y:scroll;
-				height:274px;
+				height:270px;
 				
 			}
+			clear { clear: both; }
 			#countriesLabel{
-				width:590px;
-				height:20px;
+				width:596px;
+				height:35px;
 				position:absolute;
 				display:block;
-				left:370px;
+				left:360px;
 				top:390px;
 				font-size:10px;
-				/*background:red;*/
-				/*margin-top:300px;*/
+				overflow-y:scroll;
+				border-top:solid 1px #c0C0C0;
+				text-align:center;
+				
+			}
+			#loading{
+				position:absolute;
+				left:170;
+				top:290;
 			}
 	</style>
   
   </head>
 
-  <body id="container">
+  <body id="container" >
     <h1>
       <table>
        <tr>
-         <td><a href="/ngrams">
-             <img style="margin:0 0.5em 0 0;"
+         <td><a href="#google">
+             <img 
                   src="imgs/borders_logo.gif"
                   alt="Google Books"></a>
          </td>
@@ -83,12 +91,11 @@
 	  </div>
 	  
 	</blockquote>
-
-	<center>
-	<div id="resultContainer"  style="width:900px;height:300px;border:solid 1px #c0c0c0">
+				<div id="loading"><img src="imgs/loading.gif"></div>
+	<div id="resultContainer"  style="margin-left:40px;width:900px;height:300px;border:solid 1px #c0c0c0">
 		
 		<div class="qrc">
-			<div class="qr">
+			<div class="qr" style="background-color:#e9e9e9;">
 			<div class="qrt">Results </div>
 			<div class="qrp">Weight</div>
 			</div>
@@ -102,13 +109,8 @@
 		</div>
 	</div>
 <!--
-	<g:plusone size="small"></g:plusone>
-	<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script><br>
-
-	<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="orwant">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>-->
-
-<!-- Adding pan and zoom -->
-	</center>
+	SOCIAL AREA
+ -->
 
 	<center>Run your own experiment!  Raw data is available for download
 	  <a href="/ngrams/datasets">here</a>.
@@ -130,14 +132,16 @@
 var results = [];
 var countries;
 var paper;
+var similarCountry=[];
+
+
 
 function resultsPush(newresult,country,poid){
-	//poid=1;
+	//console.log(newresult);
 	var estilla = false;
 	for (var i = 0; i < results.length; i++){
 		if(results[i].label!=undefined){
 			if(results[i].label.toLowerCase()==newresult.toLowerCase()){
-				//console.log("similaire")
 				var myresult=results[i];
 				estilla=true;
 			}
@@ -158,9 +162,40 @@ function hightlightCountrie(id){
          'stroke': '#fff'
      });
 }
-function hightlightResult(id){
-	//$('#'+id+' path').
+function unlightResult(){
+	$(".lqr").children().show();
+	/*for (var i = 0; i < myElement.country.length; i++){
+	}*/
 }
+function hightlightResult(id){
+	$(".lqr").children().hide();
+	similarCountry=[];
+	var similarCountryTemp=[];
+	var estilla;
+	var idc= id.toLowerCase()
+	var resultTemp=[];
+	$("#countriesLabel").text(cnq(idc));
+	
+	for (var i = 0; i < results.length; i++){
+		//similarCountryTemp=[];
+		//estilla=false;
+		for (var j = 0; j < results[i].country.length; j++){
+			//similarCountryTemp.push(results[i].country[j].c);
+			if( results[i].country[j].c==idc){
+				//estilla=true;
+				//console.log(results[i].country[j].c+" "+idc)
+				resultTemp.push([i,results[i]])
+				$("#"+i).show();
+			}
+			/*
+			if(estilla==true && j==results[i].country.length-1){
+				similarCountry = concat(similarCountry,similarCountryTemp);
+			}*/
+		}
+		console.log(resultTemp);
+	}
+}
+
 
 function sortByPoid (myarray){
 	myarray.sort(function (a, b) {
@@ -173,26 +208,35 @@ function resultOver(query){
 	var myElement = results[query];
 	var countryName;
 	var countryListeSt="";
+	
 	for (var i = 0; i < myElement.country.length; i++){
 		var myce=myElement.country[i];
 		countryListeSt += cnq(myce.c).toUpperCase()+" - "//+" "+myce.p);
 		hightlightCountrie(myce.c.toUpperCase());
 	}
-	if(i<14){
+	//if(i<14){
  		$("#countriesLabel").text(countryListeSt);
-	}
+	//}else{
+	//	$("#countriesLabel").text("...");
+	//}
+}
+function viderLesResult(){
+	$(".lqr").text("");
 }
 function resultOut(){
 	$('#mapHolder').children().children().children().attr({
         fill: "#333",
         stroke: "#fff"
     }, 300);
+	if(countryListeSt!=undefined){
 	$("#countriesLabel").text(countryListeSt);
+	}
 }
 function cnq(query){
 	return countries.countries[query];
 }
-function drawResult(){
+function drawResult(country){
+	viderLesResult();
 	var template="<div id='{i}' class='qr' onMouseOver='resultOver(this.id);' onMouseOut='resultOut();'><div class='qrt'>{result}</div><div class='qrp'>{poid}</div></div>";
 	var newtemplate="";
 	for (var i = 0; i < results.length; i++){
@@ -203,14 +247,13 @@ function drawResult(){
 	}
 }
 function searchBorders (content){
-	/*
-	$.getJSON("http://zeitgeist-borders.fabelier.org/search.json?jsoncallback=?",
-	  {
-	    q: "cat"
-	  },
-	*/
-	$.getJSON("search.json",function(data) {
-  		var items = [];
+	$(".lqr").children().hide();
+	$("#loading").children().show();
+	
+	$.getJSON("http://zeitgeist-borders.fabelier.org/search.json?q="+content+"&callback=?",function(data) {
+		//console.log(data);
+		results = [];
+		var items = [];
 		var taille=0
 		$.each(data.result, function(key, val) {
 				for (i=0; i<val.length; i++){
@@ -219,8 +262,8 @@ function searchBorders (content){
 			taille++;
   		});
 		sortByPoid(results);
-		console.log(taille)
-		drawResult();
+		drawResult(null);
+		$("#loading").children().hide();
 	});
 	window.location.hash = "#"+escape(content);
 }
@@ -245,7 +288,8 @@ $(document).ready(function() {
 	
 	//URL anchor search
 	if (anchorvalue==undefined){
-		searchBorders("How to");
+		searchBorders("sex");
+		// !!!!!!!!!! debug 
 	}else{
 		searchBorders(unescape(anchorvalue));
 		$('#content').attr('value',unescape(anchorvalue));
