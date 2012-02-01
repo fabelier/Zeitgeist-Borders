@@ -70,12 +70,12 @@
     <h1>
       <table>
        <tr>
-         <td><a href="#google">
+         <td><a src="/" href="#google">
              <img 
                   src="imgs/borders_logo.gif"
                   alt="Google Books"></a>
          </td>
-         <td style="padding-left: 0cm; padding-top: 0.035em; color: #009925; font-size: 28px;">What are the borders of a google auto completion ?</td>
+         <td style="padding-left: 0cm; padding-top: 0.035em; color: #009925; font-size: 28px;">What are the borders of a google auto suggestion ?</td>
        </tr>
       </table>
     </h1>
@@ -85,9 +85,11 @@
 	    <input type="text"
 	           name="content"
 			   id="content"
-	           size="40"
+	           size="33"
 	           value="How to"
-	           maxlength=240> <input name="search" id="search" type="button" value="Search the borders">
+	           maxlength=240> <input name="search" id="search" type="button" value="Search the borders"> &nbsp; <a href="exemple.html"> Exemples</a> / 
+	   <a href="exemple.html">Random</a> /
+	   <a href="explication.html"> What is it ?</a>
 	  </div>
 	  
 	</blockquote>
@@ -121,20 +123,21 @@
 			<span style="transform:rotate(180deg);-webkit-transform:rotate(180deg);
 			-moz-transform:rotate(180deg);-o-transform:rotate(180deg);
 			filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2); display: inline-block;">&copy;</span> 2011 Fabelier -
-	      <a href="http://www.fabelier.org">About Fabelier</a> -
+	      <a href="http://www.fabelier.org" target="_blank">About Fabelier</a> -
 
-	      <a href="http://support.google.com/websearch/bin/answer.py?hl=en&answer=106230" target="_blank">About Google Autocomplete</a> -
-	      <a href="/info">About Google Borders</a>
+	      <a href="explication.html" target="_blank">About Google Autocomplete</a> -
+	      <a href="info.html">About Google Borders</a>
 	    </div>
 	</center>
 <script>
 
-var results = [];
+var results 		= [];
 var countries;
 var paper;
-var similarCountry=[];
-var colors=['','#000','#2a2a2a','#494949'];
-
+var similarCountry	= [];
+var colors 			= ['','#000','#2a2a2a','#494949'];
+var radomrequest	= ['How to','why she','am I','Why he','by pass','where is','how to learn'];
+// share un higtlight
 
 function resultsPush(newresult,country,poid){
 	//console.log(newresult);
@@ -211,7 +214,7 @@ function resultOver(query){
 	
 	for (var i = 0; i < myElement.country.length; i++){
 		var myce=myElement.country[i];
-		countryListeSt += cnq(myce.c).toUpperCase()+" - "//+" "+myce.p);
+		countryListeSt += cnq(myce.c)+" " //+" - "+myce.p+" / ");
 		hightlightCountrie(myce);
 		console.log(myce);
 	}
@@ -229,9 +232,9 @@ function resultOut(){
         fill: "#888888",
         stroke: "#fff"
     }, 300);
-	if(countryListeSt!=undefined){
-	$("#countriesLabel").text(countryListeSt);
-	}
+	/*if(countryListeSt!=undefined){
+		$("#countriesLabel").text(countryListeSt);
+	}*/
 }
 function cnq(query){
 	return countries.countries[query];
