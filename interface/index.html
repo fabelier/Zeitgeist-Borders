@@ -81,14 +81,15 @@
     </h1>
 	<blockquote>
 
-	  <div>Graph these <b>case-sensitive</b> comma-separated phrases:
+	  <div>Map what google <b>suggests</b> for :
 	    <input type="text"
 	           name="content"
 			   id="content"
 	           size="33"
 	           value="How to"
-	           maxlength=240> <input name="search" id="search" type="button" value="Search the borders"> &nbsp; <a href="exemple.html"> Exemples</a> / 
-	   <a href="exemple.html">Random</a> /
+	           maxlength=240> <input name="search" id="search" type="button" value="Search"> 	
+	   <a href="" onclick="randomQuery()">Random</a> /
+	   <a href="exemple.html"> Exemples</a> / 
 	   <a href="explication.html"> What is it ?</a>
 	  </div>
 	  
@@ -214,15 +215,11 @@ function resultOver(query){
 	
 	for (var i = 0; i < myElement.country.length; i++){
 		var myce=myElement.country[i];
-		countryListeSt += cnq(myce.c)+" " //+" - "+myce.p+" / ");
+		countryListeSt += cnq(myce.c)+" - "
 		hightlightCountrie(myce);
 		console.log(myce);
 	}
-	//if(i<14){
- 		$("#countriesLabel").text(countryListeSt);
-	//}else{
-	//	$("#countriesLabel").text("...");
-	//}
+ 	$("#countriesLabel").text(countryListeSt);
 }
 function viderLesResult(){
 	$(".lqr").text("");
@@ -236,6 +233,13 @@ function resultOut(){
 		$("#countriesLabel").text(countryListeSt);
 	}*/
 }
+function randomQuery (){
+	randomme = radomrequest[Math.floor(Math.random()*radomrequest.length)]
+	searchBorders(randomme.toLowerCase());
+	$('#content').attr('value',randomme);
+	
+}
+
 function cnq(query){
 	return countries.countries[query];
 }
@@ -286,13 +290,14 @@ $(document).ready(function() {
 		countries = data;
 	});
 	$('#search').click(function() {
-		searchBorders($('#content').attr('value'));
+		searchBorders($('#content').attr('value').toLowerCase());
 	});
 	drawMap();
 	
 	//URL anchor search
 	if (anchorvalue==undefined){
-		searchBorders("sex");
+		searchBorders("how to");
+		$('#content').attr('value',unescape(anchorvalue));
 		// !!!!!!!!!! debug 
 	}else{
 		searchBorders(unescape(anchorvalue));

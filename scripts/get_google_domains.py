@@ -17,7 +17,7 @@ d = urllib.urlopen('http://www.google.com/supported_domains').read().replace('\n
 
 country_tld = {}
 
-with open ('countrylist.csv', 'rb') as f:		#List found here: http://www.andrewpatton.com/countrylist.csv
+with open ('../documentation/countrylist.csv', 'rb') as f:		#List found here: http://www.andrewpatton.com/countrylist.csv
 	reader = csv.reader(f)
 	for row in reader:
 		if 'and' not in row[-1]:
