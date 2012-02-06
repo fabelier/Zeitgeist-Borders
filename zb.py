@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import os
 import logging
-
 from pyramid.config import Configurator
 from pyramid.events import NewRequest
 from pyramid.events import subscriber
@@ -20,6 +19,7 @@ here = os.path.dirname(os.path.abspath(__file__))
 import sys
 sys.path.append(here)
 import zeitgeist_borders
+from cctld import cctlds
 
 
 @view_config(route_name='home', renderer='home.mako')
@@ -39,7 +39,7 @@ def search_view(request):
         return {'query': request.GET['q'],
                 'countries': dict((v, k)
                                   for k, v
-                                  in zeitgeist_borders.googles.iteritems()),
+                                  in cctlds.iteritems()),
                 'result':
                     zeitgeist_borders.google_instants(request.GET['q'])}
     else:
