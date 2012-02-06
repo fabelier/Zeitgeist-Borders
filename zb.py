@@ -6,7 +6,6 @@ from pyramid.config import Configurator
 from pyramid.events import NewRequest
 from pyramid.events import subscriber
 from pyramid.events import ApplicationCreated
-from pyramid.httpexceptions import HTTPFound
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
 from pyramid.view import view_config
 from pyramid.renderers import JSONP
@@ -77,7 +76,6 @@ config.scan()
 application = config.make_wsgi_app()
 
 if __name__ == "__main__":
-	from paste.httpserver import serve
-	app = config.make_wsgi_app()
-	serve(app, host='0.0.0.0')
-
+    from paste.httpserver import serve
+    app = config.make_wsgi_app()
+    serve(app, host='0.0.0.0')

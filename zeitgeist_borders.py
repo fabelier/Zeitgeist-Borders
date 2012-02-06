@@ -4,9 +4,7 @@ try:
     import pymongo
 except:
     pass
-import re
 import time
-import threading
 import urllib
 import json
 from cctld import cctlds
@@ -16,9 +14,6 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__file__)
-
-# A tiny dict for debug
-#googles = {'Canada': '.ca', 'France': '.fr', 'Brazil': '.com.br', 'Germany': '.de'}
 
 
 def memoized(function):
@@ -102,11 +97,14 @@ def google_instant(queue, country, tld, query, tries=0):
 
     """
     try:
-        response = urllib.urlopen('http://www.google.%s/complete/search?client=chrome&%s' % (tld, urllib.urlencode({'q': query}))).read()
+        query = 'http://www.google.%s/complete/search?client=chrome&%s' \
+            % (tld, urllib.urlencode({'q': query}))
+        response = urllib.urlopen(query).read()
         results = json.loads(response, encoding='latin1')
         results = [r.replace(query + ' ', '')
                    for i, r in enumerate(results[1])
-                   if r != query and results[4]['google:suggesttype'][i] == 'QUERY']
+                   if r != query
+                   and results[4]['google:suggesttype'][i] == 'QUERY']
         queue.put((tld, results))
     except Exception as ex:
         log.error("Error %s querying %s for country %s",
@@ -116,6 +114,7 @@ def google_instant(queue, country, tld, query, tries=0):
             google_instant(queue, country, tld, query, tries + 1)
         else:
             queue.put((tld, []))
+
 
 @memoized
 def google_instants(query):
