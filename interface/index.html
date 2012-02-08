@@ -61,6 +61,38 @@
 				left:170;
 				top:240;
 			}
+			.bt{
+				width:71px;
+				height:30px;
+				position:relative;
+				float:left;	
+				background:url(imgs/buttons.gif);
+				margin-left:5px;
+			}
+			#bt-search{
+			}
+			#bt-search:hover{
+				background-position:0px 31px;
+			}
+			#bt-random{
+				background-position:71px 0px;
+			}
+			#bt-random:hover{
+				background-position:71px 31px;
+			}
+			#bt-exemple{
+				background-position:143px 0px;
+			}
+			#bt-exemple:hover{
+				background-position:143px 31px;
+			}
+			#content{
+				height:31px;
+			}
+			.teaser{
+				font-size:20px;
+				position:relative;float:left;
+			}
 	</style>
   
   </head>
@@ -80,20 +112,23 @@
     </h1>
 	<blockquote>
 
-	  <div>Map what google <b>suggests</b> for :
+	  <div style="height:30px;">
+		<div class="teaser">
+		Map what google <b>suggests</b> for :
 	    <input type="text"
 	           name="content"
 			   id="content"
 	           size="33"
 	           value="How to"
-	           maxlength=240> <input name="search" id="search" type="button" value="Search"> 	
-	   <a href="" onclick="randomQuery()">Random</a> /
-	   <a href="exemple.html"> Exemples</a> / 
-	   <a href="explication.html"> What is it ?</a>
+	           maxlength=240>
+	</div>
+		<div class="bt" id="bt-search"/></div>
+		<div class="bt" id="bt-random"/></div>
+    	<div class="bt" id="bt-exemple"/></div>
 	  </div>
 	  
 	</blockquote>
-				<div id="loading"><img src="imgs/loading.gif"></div>
+	<div id="loading"><img src="imgs/loading.gif"></div>
 	<div id="resultContainer"  style="margin-left:40px;width:900px;height:300px;border:solid 1px #c0c0c0">
 		
 		<div class="qrc">
@@ -102,7 +137,6 @@
 			<div class="qrp">Weight</div>
 			</div>
 			<div class="lqr" >
-				
 			</div>
 		</div>
 		<div id="map">
@@ -244,8 +278,9 @@ function resultOut(){
 function randomQuery (){
 	randomme = radomrequest[Math.floor(Math.random()*radomrequest.length)]
 	searchBorders(randomme.toLowerCase());
-	$('#content').attr('value',randomme);
-	
+	//$('#content').atr('value',randomme);
+	//console.log(window.location.protocol+'//'+window.location.host+window.location.pathname+"#"+escape(randomme));
+	//window.location(window.location.protocol+'//'+window.location.host+window.location.pathname+"#"+randomme);
 }
 
 function cnq(query){
@@ -268,6 +303,7 @@ function drawResult(country){
 function searchBorders (content){
 	$(".lqr").children().hide();
 	$("#loading").children().show();
+	$('#content').attr('value',unescape(content));
 	
 	$.getJSON("http://zeitgeist-borders.fabelier.org/search.json?q="+content+"&callback=?",function(data) {
 		//console.log(data);
@@ -300,8 +336,14 @@ $(document).ready(function() {
 	$.getJSON("countries.json",function(data) {
 		countries = data;
 	});
-	$('#search').click(function() {
+	$('#bt-random').click(function() {
+		randomQuery();
+	});
+	$('#bt-search').click(function() {
 		searchBorders($('#content').attr('value').toLowerCase());
+	});
+	$('#bt-exemple').click(function() {
+		window.location="explication.html"
 	});
 	drawMap();
 	
