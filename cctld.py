@@ -21,7 +21,7 @@ cctlds = {
     "Bahamas, The": "bs",
     "Burkina Faso": "bf",
     "Bahrain": "com.bh",
-    #"Saudi Arabia": "sa", Connection timed out
+    "Saudi Arabia": ".com.sa",# Connection timed out
     "Congo, Democratic Republic of the (Congo & Kinshasa)": "cd",
     "Cape Verde": "cv",
     "Slovenia": "si",
@@ -83,7 +83,7 @@ cctlds = {
     "Ghana": "com.gh",
     "Tonga": "to",
     "Finland": "fi",
-#    "Libya": "ly", #Name or service not known.
+    "Libya": ".com.ly", #Name or service not known.
     "Somaliland": "so",
     "Indonesia": "co.id",
     "Central African Republic": "cf",
