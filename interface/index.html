@@ -5,7 +5,6 @@
     <link rel="stylesheet" type="text/css" href="http://www.google.com/css/go-x.css">
     <link rel="stylesheet" type="text/css" href="http://www.google.com/css/modules/buttons/g-button.css">
   	<script type="text/javascript" src="lib/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   	<script type="text/javascript" src="lib/underscore-min.js"></script>
 	<script type="text/javascript" src="lib/raphael-min.js"></script>
 	<script type="text/javascript" src="lib/scale.raphael.js"></script>
@@ -137,7 +136,7 @@ var countries;
 var paper;
 var similarCountry	= [];
 var colors 			= ['','#000','#2a2a2a','#494949'];
-var radomrequest	= ['How to','why she','am I','Why he','by pass','where is','how to learn'];
+var radomrequest	= ['abortion','How to','why she','am I','Why he','by pass','where is','how to learn'];
 // share un higtlight
 
 function resultsPush(newresult,country,poid){
@@ -152,16 +151,30 @@ function resultsPush(newresult,country,poid){
 		}
 	}
 	if(estilla==false){
-		results.push({'label':newresult,'country':[{'c':country,'p':poid}],'poid':1});
+		results.push({'label':newresult,'country':[{'c':cleanIDcountry(country),'p':poid}],'poid':1});
 	}else{
-		myresult.country.push({'c':country,'p':poid});
+		myresult.country.push({'c':cleanIDcountry(country),'p':poid});
 		myresult.poid+=1;
 	}
 }
+function cleanIDcountry(id){
+	 id     = id.toUpperCase()
+	 comsid = id.search("COM.")
+	 cosid  = id.search("CO.")
+	//console.log("----> "+id)
+	if(id!="COM"){
+	 if(comsid!=-1){
+		id=id.slice(4,id.length)
+	 }else if(cosid!=-1 ){
+		id = id.slice(3,id.length)
+	 }
+	}
+	return id
+}
 function hightlightCountrie(myce){
-	 id = myce.c.toUpperCase()
+	 id     = myce.c.toUpperCase()
+	 //console.log(myce);
 	 var mycountryPath = $('#'+id)
-	//console.log(mycountryPath);
 	 $('#'+id).attr({
          'fill': colors[myce.p],
          'stroke': '#fff'
@@ -177,18 +190,13 @@ function hightlightResult(id){
 	similarCountry=[];
 	var similarCountryTemp=[];
 	var estilla;
-	var idc= id.toLowerCase()
+	var idc= id.toUpperCase()
 	var resultTemp=[];
 	$("#countriesLabel").text(cnq(idc));
 	
 	for (var i = 0; i < results.length; i++){
-		//similarCountryTemp=[];
-		//estilla=false;
 		for (var j = 0; j < results[i].country.length; j++){
-			//similarCountryTemp.push(results[i].country[j].c);
 			if( results[i].country[j].c==idc){
-				//estilla=true;
-				//console.log(results[i].country[j].c+" "+idc)
 				resultTemp.push([i,results[i]])
 				$("#"+i).show();
 			}
@@ -197,7 +205,7 @@ function hightlightResult(id){
 				similarCountry = concat(similarCountry,similarCountryTemp);
 			}*/
 		}
-		console.log(resultTemp);
+		//console.log(resultTemp);
 	}
 }
 
@@ -217,7 +225,7 @@ function resultOver(query){
 		var myce=myElement.country[i];
 		countryListeSt += cnq(myce.c)+" - "
 		hightlightCountrie(myce);
-		console.log(myce);
+		//console.log(myce);
 	}
  	$("#countriesLabel").text(countryListeSt);
 }
@@ -241,7 +249,10 @@ function randomQuery (){
 }
 
 function cnq(query){
-	return countries.countries[query];
+	var label = countries.countries[query.toLowerCase()];
+	console.log(label)
+	if(label==undefined){return "Sorry, I don't find this country "+query }
+	else{return label}
 }
 function drawResult(country){
 	viderLesResult();
