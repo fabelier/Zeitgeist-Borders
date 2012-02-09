@@ -4,11 +4,11 @@
     <title>Google Borders Viewer</title>
     <link rel="stylesheet" type="text/css" href="http://www.google.com/css/go-x.css">
     <link rel="stylesheet" type="text/css" href="http://www.google.com/css/modules/buttons/g-button.css">
-  	<script type="text/javascript" src="lib/jquery-1.7.1.min.js"></script>
-  	<script type="text/javascript" src="lib/underscore-min.js"></script>
-	<script type="text/javascript" src="lib/raphael-min.js"></script>
-	<script type="text/javascript" src="lib/scale.raphael.js"></script>
-  	<script type="text/javascript" src="worldmap.js"></script>
+  	<script type="text/javascript" src="static/lib/jquery-1.7.1.min.js"></script>
+  	<script type="text/javascript" src="static/lib/underscore-min.js"></script>
+	<script type="text/javascript" src="static/lib/raphael-min.js"></script>
+	<script type="text/javascript" src="static/lib/scale.raphael.js"></script>
+  	<script type="text/javascript" src="static/lib/worldmap.js"></script>
 
 	<style type="text/css">
 			.qr{
@@ -66,29 +66,16 @@
 				height:30px;
 				position:relative;
 				float:left;	
-				background:url(imgs/buttons.gif);
+				background:url(static/imgs/buttons.gif);
 				margin-left:5px;
 			}
-			#bt-search{
-			}
-			#bt-search:hover{
-				background-position:0px 31px;
-			}
-			#bt-random{
-				background-position:71px 0px;
-			}
-			#bt-random:hover{
-				background-position:71px 31px;
-			}
-			#bt-exemple{
-				background-position:143px 0px;
-			}
-			#bt-exemple:hover{
-				background-position:143px 31px;
-			}
-			#content{
-				height:31px;
-			}
+			#bt-search{}
+			#bt-search:hover{background-position:0px 31px;}
+			#bt-random{background-position:71px 0px;}
+			#bt-random:hover{background-position:71px 31px;}
+			#bt-exemple{background-position:143px 0px;}
+			#bt-exemple:hover{background-position:143px 31px;}
+			#content{height:31px;}
 			.teaser{
 				font-size:20px;
 				position:relative;float:left;
@@ -103,8 +90,8 @@
        <tr>
          <td><a href="./index.html">
              <img 
-                  src="imgs/borders_logo.gif"
-                  alt="Google Books"></a>
+                  src="static/imgs/borders_logo.gif"
+                  alt="Google Borders"></a>
          </td>
          <td style="padding-left: 0cm; padding-top: 0.035em; color: #009925; font-size: 28px;">What are the borders of Google Autocomplete ?</td>
        </tr>
@@ -128,7 +115,7 @@
 	  </div>
 	  
 	</blockquote>
-	<div id="loading"><img src="imgs/loading.gif"></div>
+	<div id="loading"><img src="static/imgs/loading.gif"></div>
 	<div id="resultContainer"  style="margin-left:40px;width:900px;height:300px;border:solid 1px #c0c0c0">
 		
 		<div class="qrc">
@@ -170,7 +157,7 @@ var countries;
 var paper;
 var similarCountry	= [];
 var colors 			= ['','#000','#2a2a2a','#494949'];
-var radomrequest	= ['abortion','How to','why she','am I','Why he','by pass','where is','how to learn'];
+var radomrequest	= ['abortion','How to','why she','am I','Why he','by pass','where is','how to learn','death penalty','what is the best','why children','why men','why woman','why god'];
 // share un higtlight
 
 function resultsPush(newresult,country,poid){
@@ -333,7 +320,7 @@ $(document).ready(function() {
 	if(strippedUrl.length > 1)
 	anchorvalue = strippedUrl[1];
 	
-	$.getJSON("countries.json",function(data) {
+	$.getJSON("static/countries.json",function(data) {
 		countries = data;
 	});
 	$('#bt-random').click(function() {
@@ -343,7 +330,7 @@ $(document).ready(function() {
 		searchBorders($('#content').attr('value').toLowerCase());
 	});
 	$('#bt-exemple').click(function() {
-		window.location="explication.html"
+		window.location="static/explication.html"
 	});
 	drawMap();
 	
