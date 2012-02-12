@@ -1,7 +1,9 @@
 <html>
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>Google Borders Viewer</title>
+	<meta name="description" content=" Google-Borders.com aims at providing a visualization of ALL country specific google search engines suggestions. This way, you can have fun discovering unknown differences or similarities between a great number of countries. " >
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta name="keywords" content="google,borders,keyword,search,autocompletion,mapping,humanities,completion,suggestion" >
     <link rel="stylesheet" type="text/css" href="http://www.google.com/css/go-x.css">
     <link rel="stylesheet" type="text/css" href="http://www.google.com/css/modules/buttons/g-button.css">
   	<script type="text/javascript" src="static/lib/jquery-1.7.1.min.js"></script>
@@ -67,7 +69,8 @@
 				position:relative;
 				float:left;	
 				background:url(static/imgs/buttons.gif);
-				margin-left:5px;
+				margin-left:2px;
+				margin-right:2px;
 			}
 			#bt-search{}
 			#bt-search:hover{background-position:0px 31px;}
@@ -77,8 +80,15 @@
 			#bt-exemple:hover{background-position:143px 31px;}
 			#content{height:31px;}
 			.teaser{
-				font-size:20px;
+				font-size:15px;
 				position:relative;float:left;
+			}
+			.share{
+				margin-left:2px;
+				margin-right:2px;
+				position:relative;
+				float:right;
+				width:200px;
 			}
 	</style>
   
@@ -99,19 +109,34 @@
     </h1>
 	<blockquote>
 
-	  <div style="height:30px;width:900px;">
+	  <div style="height:30px;width:945px;">
 		<div class="teaser">
 		Map what google <b>suggests</b> for :
 	    <input type="text"
 	           name="content"
 			   id="content"
-	           size="33"
+	           size="20"
 	           value="How to"
 	           maxlength=240>
 	</div>
 		<div class="bt" id="bt-search"/></div>
 		<div class="bt" id="bt-random"/></div>
     	<div class="bt" id="bt-exemple"/></div>
+<div class="share">
+
+	<!-- AddThis Button BEGIN -->
+	<div class="addthis_toolbox addthis_default_style ">
+		<a class="addthis_button_preferred_4"></a>
+	<a class="addthis_button_preferred_1"></a>
+	<a class="addthis_button_preferred_2"></a>
+	<a class="addthis_button_preferred_3"></a>
+	<a class="addthis_button_compact"></a>
+	<a class="addthis_button_google_plusone"></a>
+	</div>
+	<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4f378cbf56f9333b"></script>
+	<!-- AddThis Button END -->
+
+		<div>
 	  </div>
 	  
 	</blockquote>
@@ -136,7 +161,8 @@
  -->
 
 	<center>Run your own experiment ! Raw data is available for download
-	  <a href="#">here</a>.
+	  <a href="#" id="rawdata">here</a>.<br/>
+	Contact us <a href="https://docs.google.com/spreadsheet/viewform?formkey=dHpVYWZCVUNIT3c3RjZIZncxMDdscFE6MQ"> here</a>
 	</center>
 
 	    <center>
@@ -157,7 +183,7 @@ var countries;
 var paper;
 var similarCountry	= [];
 var colors 			= ['','#000','#2a2a2a','#494949'];
-var radomrequest	= ['abortion','How to','why she','am I','Why he','by pass','where is','how to learn','death penalty','what is the best','why children','why men','why woman','why god'];
+var radomrequest	= ['why','where is','when','what','abortion','How to','why she','am I','Why he','by pass','where is','how to learn','death penalty','what is the best','why children','why men','why woman','why god'];
 // share un higtlight
 
 function resultsPush(newresult,country,poid){
@@ -291,8 +317,8 @@ function searchBorders (content){
 	$(".lqr").children().hide();
 	$("#loading").children().show();
 	$('#content').attr('value',unescape(content));
-	
-	$.getJSON("http://zeitgeist-borders.fabelier.org/search.json?q="+content+"&callback=?",function(data) {
+	var queryurl = "http://zeitgeist-borders.fabelier.org/search.json?q="+content;
+	$.getJSON(queryurl+"&callback=?",function(data) {
 		//console.log(data);
 		results = [];
 		var items = [];
@@ -308,6 +334,9 @@ function searchBorders (content){
 		$("#loading").children().hide();
 	});
 	window.location.hash = "#"+escape(content);
+	document.title = "What is the google borders for '"+content+"' ?";
+	$('#rawdata').attr('href',queryurl);
+	
 }
 
 $(document).ready(function() {
@@ -336,9 +365,7 @@ $(document).ready(function() {
 	
 	//URL anchor search
 	if (anchorvalue==undefined){
-		searchBorders("how to");
-		$('#content').attr('value',unescape(anchorvalue));
-		// !!!!!!!!!! debug 
+		randomQuery ();
 	}else{
 		searchBorders(unescape(anchorvalue));
 		$('#content').attr('value',unescape(anchorvalue));

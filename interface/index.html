@@ -157,7 +157,7 @@ var countries;
 var paper;
 var similarCountry	= [];
 var colors 			= ['','#000','#2a2a2a','#494949'];
-var radomrequest	= ['abortion','How to','why she','am I','Why he','by pass','where is','how to learn','death penalty','what is the best','why children','why men','why woman','why god'];
+var radomrequest	= ['How to','why she','am I','Why he','by pass','where is','how to learn','death penalty','what is the best','why children','why men','why woman','why god','abortion'];
 // share un higtlight
 
 function resultsPush(newresult,country,poid){
@@ -308,6 +308,8 @@ function searchBorders (content){
 		$("#loading").children().hide();
 	});
 	window.location.hash = "#"+escape(content);
+	document.title = "What is the google borders for "+content;
+
 }
 
 $(document).ready(function() {
