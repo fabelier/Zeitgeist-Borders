@@ -11,6 +11,7 @@ from cctld import cctlds
 from threading import Thread
 from Queue import Queue
 import logging
+from remote_shell import execute
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__file__)
@@ -99,7 +100,8 @@ def google_instant(queue, country, tld, query, tries=0):
     try:
         http_query = 'http://www.google.%s/complete/search?client=chrome&%s' \
             % (tld, urllib.urlencode({'q': query.encode('utf-8')}))
-        response = urllib.urlopen(http_query).read()
+        response = execute('import urllib; print urllib.urlopen("%s").read()' \
+                               % http_query)
         results = json.loads(response, encoding='utf-8')
         results = [r.replace(query + ' ', '')
                    for i, r in enumerate(results[1])
