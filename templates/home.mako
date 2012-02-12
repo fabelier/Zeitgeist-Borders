@@ -264,9 +264,8 @@ function searchBorders (content){
 	$(".lqr").children().hide();
 	$("#loading").children().show();
 	$('#content').attr('value',unescape(content));
-	var queryurl = "http://zeitgeist-borders.fabelier.org/search.json?q="+content;
+	var queryurl = "search.json?q="+content;
 	$.getJSON(queryurl+"&callback=?",function(data) {
-		//console.log(data);
 		results    = [];
 		var items  = [];
 		var taille = 0
