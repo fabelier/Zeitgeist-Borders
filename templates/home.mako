@@ -261,6 +261,7 @@ function drawResult(country){
 	}
 }
 function searchBorders (content){
+	$("#error").hide();
 	$(".lqr").children().hide();
 	$("#loading").children().show();
 	$('#content').attr('value',unescape(content));
@@ -278,9 +279,6 @@ function searchBorders (content){
 		if(results.length<4){
 					$("#error").show();
 					$("#error").text("Oooops sorry, this is an error here ! We don't know what is it, but just for informations :  Google don't give autocompletion for sex / porn query. :-) ...");
-		}else{
-					$("#error").hide();
-
 		}
 		sortByPoid(results);
 		drawResult(null);
@@ -294,9 +292,6 @@ function searchBorders (content){
 
 $(document).ready(function() {
 	var anchorvalue;
-	//var paper = Raphael('mapHolder',1000,500);
-	//paper.changeSize(600, 300, true, false);
-    
 	var url = document.location;
 	var strippedUrl = url.toString().split("#");
 	if(strippedUrl.length > 1)
@@ -329,6 +324,10 @@ $(document).ready(function() {
 	  	}
 	});
 	
+	var test = "http://www.google.cz/complete/search?client=chrome&q=culture"
+	$('#result').load(test, function() {
+	  alert('Load was performed.');
+	});
 });
 </script>
 
