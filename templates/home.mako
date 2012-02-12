@@ -24,14 +24,7 @@
 	#countriesLabel{width:596px;height:35px;position:absolute;display:block;left:360px;top:390px;font-size:10px;overflow-y:scroll;border-top:solid 1px #c0C0C0;text-align:center;}
 			#loading{position:absolute;left:170;top:240;}
 			#error{position:absolute;left:120;top:220;text-align:center;width:150px;}
-			.bt{
-width:71px;
-height:30px;
-position:relative;
-float:left;	
-background:url(static/imgs/buttons.gif);
-margin-left:2px;
-margin-right:2px;
+			.bt{width:71px;height:30px;position:relative;float:left;background:url(static/imgs/buttons.gif);margin-left:2px;margin-right:2px;
 			}
 			#bt-search{}
 			#bt-search:hover{background-position:0px 31px;}
@@ -40,17 +33,8 @@ margin-right:2px;
 			#bt-exemple{background-position:143px 0px;}
 			#bt-exemple:hover{background-position:143px 31px;}
 			#content{height:31px;}
-			.teaser{
-				font-size:15px;
-				position:relative;float:left;
-			}
-			.share{
-				margin-left:2px;
-				margin-right:2px;
-				position:relative;
-				float:right;
-				width:200px;
-			}
+			.teaser{font-size:15px;position:relative;float:left;}
+			.share{margin-left:2px;margin-right:2px;position:relative;float:right;width:200px;}
 	</style>
   
   </head>
@@ -295,7 +279,7 @@ function searchBorders (content){
 
 		if(data.result[0]==undefined){
 			$("#error").show();
-			$("#error").text("Oooops there is an error here ! We don't know what is it, but just for informations :  Google don't give autocompletion for sex / porn query. :-) ...");
+			$("#error").text("Oooops sorry, this is an error here ! We don't know what is it, but just for informations :  Google don't give autocompletion for sex / porn query. :-) ...");
 		}else{
 			$("#error").hide();
 
