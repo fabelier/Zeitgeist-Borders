@@ -98,7 +98,7 @@ def google_instant(queue, country, tld, query, tries=0):
     """
     try:
         query = 'http://www.google.%s/complete/search?client=chrome&%s' \
-            % (tld, urllib.urlencode({'q': query}))
+            % (tld, urllib.urlencode({'q': query.encode('utf-8')}))
         response = urllib.urlopen(query).read()
         results = json.loads(response, encoding='latin1')
         results = [r.replace(query + ' ', '')
