@@ -115,7 +115,7 @@
 	    <input type="text"
 	           name="content"
 			   id="content"
-	           size="20"
+	           size="34"
 	           value="How to"
 	           maxlength=240>
 	</div>
@@ -370,6 +370,11 @@ $(document).ready(function() {
 		searchBorders(unescape(anchorvalue));
 		$('#content').attr('value',unescape(anchorvalue));
 	}
+	$("#content").keypress(function(event) {
+		if ( event.keyCode == 13 ) {
+			searchBorders($('#content').attr('value').toLowerCase());
+	  	}
+	});
 	
 });
 </script>
