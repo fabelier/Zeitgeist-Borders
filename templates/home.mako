@@ -275,12 +275,11 @@ function searchBorders (content){
 				}
 			taille++;
   		});
-
-		if(data.result[0]==undefined){
-			$("#error").show();
-			$("#error").text("Oooops sorry, this is an error here ! We don't know what is it, but just for informations :  Google don't give autocompletion for sex / porn query. :-) ...");
+		if(results.length<4){
+					$("#error").show();
+					$("#error").text("Oooops sorry, this is an error here ! We don't know what is it, but just for informations :  Google don't give autocompletion for sex / porn query. :-) ...");
 		}else{
-			$("#error").hide();
+					$("#error").hide();
 
 		}
 		sortByPoid(results);
