@@ -97,10 +97,10 @@ def google_instant(queue, country, tld, query, tries=0):
 
     """
     try:
-        query = 'http://www.google.%s/complete/search?client=chrome&%s' \
+        http_query = 'http://www.google.%s/complete/search?client=chrome&%s' \
             % (tld, urllib.urlencode({'q': query.encode('utf-8')}))
-        response = urllib.urlopen(query).read()
-        results = json.loads(response, encoding='latin1')
+        response = urllib.urlopen(http_query).read()
+        results = json.loads(response, encoding='utf-8')
         results = [r.replace(query + ' ', '')
                    for i, r in enumerate(results[1])
                    if r != query
@@ -108,7 +108,7 @@ def google_instant(queue, country, tld, query, tries=0):
         queue.put((tld, results))
     except Exception as ex:
         log.error("Error %s querying %s for country %s",
-                  str(ex), query, country)
+                  str(ex), http_query, country)
         if tries < 2:
             time.sleep(1)
             google_instant(queue, country, tld, query, tries + 1)
