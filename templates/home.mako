@@ -13,64 +13,25 @@
   	<script type="text/javascript" src="static/lib/worldmap.js"></script>
 
 	<style type="text/css">
-			.qr{
-				padding:5px;
-				border-bottom: solid 1px #c0c0c0;
-				display:block;
-				overflow: hidden;	 
-			}
-			.qr:hover{
-				background-color:#e9e9e9;
-			}
-			.qrt{
-				float:left;
-				display:block;
-			}
-			.qrp{
-				float:right;
-				display:block;
-			}
-			.qrc{
-				text-align:left;
-				float:left;
-				width:300px;
-				height:300px;
-				border-right:solid 1px #c0c0c0;
-				display:block;
-				position:relative;
-			}
-			.lqr{
-				overflow-y:scroll;
-				height:270px;
-				
-			}
+			.qr{padding:5px;border-bottom: solid 1px #c0c0c0;display:block;overflow: hidden;}
+			.qr:hover{background-color:#e9e9e9;}
+			.qrt{float:left;display:block;}
+			.qrp{float:right;display:block;}
+			.qrc{text-align:left;float:left;width:300px;height:300px;border-right:solid 1px #c0c0c0;display:block;position:relative;}
+			.lqr{overflow-y:scroll;height:270px;}
 			clear { clear: both; }
-			#countriesLabel{
-				width:596px;
-				height:35px;
-				position:absolute;
-				display:block;
-				left:360px;
-				top:390px;
-				font-size:10px;
-				overflow-y:scroll;
-				border-top:solid 1px #c0C0C0;
-				text-align:center;
-				
-			}
-			#loading{
-				position:absolute;
-				left:170;
-				top:240;
-			}
+					
+	#countriesLabel{width:596px;height:35px;position:absolute;display:block;left:360px;top:390px;font-size:10px;overflow-y:scroll;border-top:solid 1px #c0C0C0;text-align:center;}
+			#loading{position:absolute;left:170;top:240;}
+			#error{position:absolute;left:120;top:220;text-align:center;width:150px;}
 			.bt{
-				width:71px;
-				height:30px;
-				position:relative;
-				float:left;	
-				background:url(static/imgs/buttons.gif);
-				margin-left:2px;
-				margin-right:2px;
+width:71px;
+height:30px;
+position:relative;
+float:left;	
+background:url(static/imgs/buttons.gif);
+margin-left:2px;
+margin-right:2px;
 			}
 			#bt-search{}
 			#bt-search:hover{background-position:0px 31px;}
@@ -141,6 +102,8 @@
 	  
 	</blockquote>
 	<div id="loading"><img src="static/imgs/loading.gif"></div>
+	<div id="error"></div>
+	
 	<div id="resultContainer"  style="margin-left:40px;width:900px;height:300px;border:solid 1px #c0c0c0">
 		
 		<div class="qrc">
@@ -183,7 +146,7 @@ var countries;
 var paper;
 var similarCountry	= [];
 var colors 			= ['','#000','#2a2a2a','#494949'];
-var radomrequest	= ['why','where is','when','what','abortion','How to','why she','am I','Why he','by pass','where is','how to learn','death penalty','what is the best','why children','why men','why woman','why god'];
+var radomrequest	= ['how','why','where is','when','what','abortion','How to','why she','am I','Why he','by pass','where are','how to learn','death penalty','what is the best','why children','why men','why woman','why god','why he','why parents','how to be','why he is'];
 // share un higtlight
 
 function resultsPush(newresult,country,poid){
@@ -320,15 +283,23 @@ function searchBorders (content){
 	var queryurl = "http://zeitgeist-borders.fabelier.org/search.json?q="+content;
 	$.getJSON(queryurl+"&callback=?",function(data) {
 		//console.log(data);
-		results = [];
-		var items = [];
-		var taille=0
+		results    = [];
+		var items  = [];
+		var taille = 0
 		$.each(data.result, function(key, val) {
 				for (i=0; i<val.length; i++){
 		 			resultsPush(val[i],key,val.length-i);
 				}
 			taille++;
   		});
+
+		if(data.result[0]==undefined){
+			$("#error").show();
+			$("#error").text("Oooops there is an error here ! We don't know what is it, but just for informations :  Google don't give autocompletion for sex / porn query. :-) ...");
+		}else{
+			$("#error").hide();
+
+		}
 		sortByPoid(results);
 		drawResult(null);
 		$("#loading").children().hide();
