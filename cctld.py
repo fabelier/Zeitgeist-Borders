@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-List of all Google's domain names listed at http://www.google.com/supported_domains
+List of all Google's domain names listed at http://www.googlecom/supported_domains
 Dictionary built with ./get_google_domains.py
 """
 
@@ -21,7 +21,7 @@ cctlds = {
     "Bahamas, The": "bs",
     "Burkina Faso": "bf",
     "Bahrain": "com.bh",
-    "Saudi Arabia": ".com.sa",# Connection timed out
+    "Saudi Arabia": "com.sa",# Connection timed out
     "Congo, Democratic Republic of the (Congo & Kinshasa)": "cd",
     "Cape Verde": "cv",
     "Slovenia": "si",
@@ -83,7 +83,7 @@ cctlds = {
     "Ghana": "com.gh",
     "Tonga": "to",
     "Finland": "fi",
-    "Libya": ".com.ly", #Name or service not known.
+    "Libya": "com.ly", #Name or service not known.
     "Somaliland": "so",
     "Indonesia": "co.id",
     "Central African Republic": "cf",
