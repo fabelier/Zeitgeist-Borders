@@ -1,5 +1,15 @@
 # Zeitgeist Borders
 
+**Zeitgeist Borders enable you to map all google domains specific suggestions over a world map.**
+
+By passing your mouse over a country you get the list of all related suggestions:
+
+![Map Interaction](./documentation/map_zeitgeist.jpg)
+
+By passing your mouse over a suggestion you see all the related countries being highlighted on the map:
+
+![List Interaction](./documentation/menu_zeitgeist.jpg)
+
 This software was developed by [@mazieres](https://github.com/mazieres), [@cybunk](https://github.com/cybunk) and [@sizeof](https://github.com/JulienPalard) at [Fabelier](http://fabelier.org)
 
 # License
