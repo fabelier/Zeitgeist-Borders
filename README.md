@@ -1,6 +1,6 @@
 # Zeitgeist Borders
 
-**Zeitgeist Borders enable you to map all google domains specific suggestions over a world map.**
+**Zeitgeist Borders enable you to map suggestions from all Google search domains over a world map.**
 
 By passing your mouse over a country you get the list of all related suggestions:
 
