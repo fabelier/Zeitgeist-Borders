@@ -4,11 +4,11 @@
 
 By passing your mouse over a country you get the list of all related suggestions:
 
-![Map Interaction](./documentation/map_zeitgeist.jpg)
+![Map Interaction](https://github.com/fabelier/Zeitgeist-Borders/blob/master/documentation/map_zeitgeist.jpg)
 
 By passing your mouse over a suggestion you see all the related countries being highlighted on the map:
 
-![List Interaction](./documentation/menu_zeitgeist.jpg)
+![List Interaction](https://github.com/fabelier/Zeitgeist-Borders/blob/master/documentation/menu_zeitgeist.jpg)
 
 This software was developed by [@mazieres](https://github.com/mazieres), [@cybunk](https://github.com/cybunk) and [@sizeof](https://github.com/JulienPalard) at [Fabelier](http://fabelier.org)
 
