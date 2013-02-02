@@ -71,4 +71,4 @@ This software was developed at [Fabelier](http://fabelier.org), a parisian hacke
 + [Samuel Huron](https://github.com/cybunk), PhD Candidate at [Aviz](http://www.aviz.fr/) and lead designer at [IRI](http://www.iri.centrepompidou.fr/).
 + [Julien Palard](https://github.com/JulienPalard), CTO of [Melty](http://www.meltynetwork.fr/).
 
-Feel free to contact them at `zeitgeist@fabelier.org` or to discuss about this project on Fabelier's mailing-list.
+Feel free to contact them at `zeitgeist at fabelier dot org` or to chat about this project on [Fabelier's mailing-list](https://groups.google.com/forum/?hl=en&fromgroups#!forum/fabelier).
