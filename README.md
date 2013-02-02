@@ -27,6 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Installing Zeitgeist Borders
 
+We couldn't make an online service because of the Google's limitation on the number of query on their servers, but still you can install it on your computer with a little bit of patience. Install [Python](http://www.python.org/) and follow the steps described above. It's worth it, it's a pretty funny and addictive tool ! :)
+
 ## Dependencies
 
 In order to use Zeitgeist Borders you must have [Python](http://www.python.org/download/releases/2.7/) installed with the following dependencies: 
