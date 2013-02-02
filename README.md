@@ -10,6 +10,8 @@ By passing your mouse over a suggestion you see all the related countries being 
 
 ![List Interaction](https://raw.github.com/fabelier/Zeitgeist-Borders/master/documentation/menu_zeitgeist.jpg)
 
+Add a space after the last word of your query if you don't want Zeitgeist Borders to suggests you completion of the single last word instead of completion of your whole query.
+
 # License
 
 This program is free software: you can redistribute it and/or modify
@@ -61,8 +63,6 @@ Browse the application's page by typing the following address into your Browser:
 
 	http://127.0.0.1:8080/
 
-Enjoy !
-
 # About
 
 This software was developed at [Fabelier](http://fabelier.org), a parisian hackerspace, by:
@@ -70,3 +70,5 @@ This software was developed at [Fabelier](http://fabelier.org), a parisian hacke
 + [Antoine Mazières](https://github.com/mazieres), PhD Candidate at [INRA-Sens](http://www.inra-ifris.org/) and [LIAFA](http://www.liafa.jussieu.fr/).
 + [Samuel Huron](https://github.com/cybunk), PhD Candidate at [Aviz](http://www.aviz.fr/) and lead designer at [IRI](http://www.iri.centrepompidou.fr/).
 + [Julien Palard](https://github.com/JulienPalard), CTO of [Melty](http://www.meltynetwork.fr/).
+
+Feel free to contact them at `zeitgeist@fabelier.org` or to discuss about this project on Fabelier's mailing-list.
