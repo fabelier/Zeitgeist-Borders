@@ -29,6 +29,7 @@ from cctld import cctlds
 from threading import Thread
 from Queue import Queue
 import logging
+import time, datetime
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__file__)
@@ -77,7 +78,9 @@ def memoized(function):
                 cache.update({'_id': _id}, {'$inc': {'hits': 1}})
                 return cached['value']
             value = function(arg)
-            cache.insert({'_id': _id, 'value': value, 'hits': 0})
+            d = datetime.datetime.now()
+            posix_date = int(time.mktime(d.timetuple()))
+            cache.insert({'_id': _id, 'value': value, 'date': posix_date, 'hits': 0})
             return value
     else:
         def _(arg):
