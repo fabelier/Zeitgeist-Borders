@@ -82,6 +82,7 @@ session_factory = UnencryptedCookieSessionFactoryConfig('itsaseekreet')
 settings = {"mako.directories": os.path.join(here, "templates"),
             "mako.input_encoding": 'utf-8'}
 config = Configurator(settings=settings, session_factory=session_factory)
+config.include('pyramid_mako')
 config.add_renderer('jsonp', JSONP(param_name='callback'))
 config.add_route('home', '/')
 config.add_route('search', '/search/')
@@ -96,4 +97,4 @@ application = config.make_wsgi_app()
 if __name__ == "__main__":
     from paste.httpserver import serve
     app = config.make_wsgi_app()
-    serve(app, host='0.0.0.0')
+    serve(app, host='0.0.0.0', port='8085')

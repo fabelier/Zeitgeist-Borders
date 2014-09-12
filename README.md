@@ -41,9 +41,10 @@ In order to use Zeitgeist Borders you must have [Python](http://www.python.org/d
 
 All of them are available through [`easy_install`](http://pypi.python.org/pypi/setuptools):
 
-	sudo easy_install pyramid
-	sudo easy_install pymongo
-	sudo easy_install paste
+	sudo pip install pyramid
+	sudo pip install pyramid_mako
+	sudo pip install pymongo
+	sudo pip install paste
 
 ## Installation and usage
 
