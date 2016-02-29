@@ -1,5 +1,9 @@
 # Zeitgeist Borders
 
+Research Paper : <https://hal.inria.fr/hal-00805048/document>
+
+Review by New Scientist : <https://www.newscientist.com/blogs/onepercent/2013/04/zeitgeist-borders-google.html>
+
 **Zeitgeist Borders enable you to map suggestions from all Google search domains over a world map.**
 
 By passing your mouse over a country you get the list of all related suggestions:
